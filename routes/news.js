@@ -62,11 +62,13 @@ router.get("/nourl", function (req, res) {
 router.get("/:id?", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
   let parameters = [];
-  let query = "select * from raw_data;";
+  let query = "select * from raw_data";
   if (req.params.id) {
     parameters = [req.params.id];
-    query = "select * from raw_data where id = ?;";
+    query += " where id = ?;";
   }
+  query += ` limit ` + (req.query["top"] || 100);
+  query += ";";
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {
       res.status(500).json("Algo se incendia...");

@@ -67,6 +67,7 @@ router.get("/:id?", function (req, res) {
     parameters = [req.params.id];
     query += " where id = ?;";
   }
+  query += ` order by random()`;
   query += ` limit ` + (req.query["top"] || 100);
   query += ";";
   dataAccess.select(query, parameters, (err, data) => {

@@ -64,8 +64,14 @@ router.get("/:id?", function (req, res) {
   let parameters = [];
   let query = "select * from raw_data";
   if (req.params.id) {
-    parameters = [req.params.id];
-    query += " where id = ?;";
+    let id = req.params.id
+      .split(',')
+      .map(r=> r.trim())
+      .filter(r=>!isNaN(r))
+      .map(r=>parseInt(r))
+      .reduce((a, b)=>`${a}, ${b}`);
+    parameters = [];
+    query += ` where id in (${id});`;
   }
   query += ` order by random()`;
   query += ` limit ` + (req.query["top"] || 100);

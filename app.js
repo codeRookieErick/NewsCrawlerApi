@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let fullPath = require("path").join(__dirname, "routes");
+let fullPath = require("path").join(process.cwd(), "routes");
 
 require("./routesServer")("routes", (err, files) => {
   if (!err) {

@@ -15,7 +15,7 @@ router.get("/find", (req, res) => {
     parameters = queryKeys.map((k) => req.query[k]);
     query += ` where ${filterTemplate}`;
   }
-  query += ";";
+  query += " limit 20;";
 
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {
@@ -33,7 +33,9 @@ router.get("/token/:token", function (req, res) {
     "select * from raw_data where " +
     tokensEval
       .map((t) => `${t} like '%${req.params.token}%'`)
-      .reduce((a, b) => `${a} or ${b}`);
+      .reduce((a, b) => `${a} or ${b}`)
+    + " limit 20;";
+    
   console.log(query);
   dataAccess.select(query, [], (err, data) => {
     if (err) {
@@ -47,7 +49,7 @@ router.get("/token/:token", function (req, res) {
 router.get("/nourl", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
   dataAccess.select(
-    "select * from raw_data where url = '';",
+    "select * from raw_data where url = '' limit 20;",
     [],
     (err, data) => {
       if (err) {
@@ -74,7 +76,7 @@ router.get("/:id?", function (req, res) {
     query += ` where id in (${id});`;
   }
   query += ` order by random()`;
-  query += ` limit ` + (req.query["top"] || 100);
+  query += ` limit ` + (req.query["top"] || 20);
   query += ";";
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {

@@ -23,8 +23,8 @@ router.get("/getOrdered/:top?", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
   let parameters = [];
   let query = "select * from vw_news_with_order";
-  if (req.params.top) {
-    parameters = [req.params.top];
+  if (!isNan(req.params.top)) {
+    parameters = [parseInt(req.params.top)];
     query += " where ord <= ?";
   }
   query += ";";

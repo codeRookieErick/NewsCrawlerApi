@@ -19,15 +19,10 @@ router.get("/:source?", function (req, res) {
   });
 });
 
-router.get("/getOrdered/:ord?", function (req, res) {
+router.get("/getOrdered/:ord", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
-  let parameters = [];
-  let query = "select * from vw_news_with_order";
-  if (req.params.ord) {
-    parameters = [parseInt(req.params.ord)];
-    query += " where ord <= ?";
-  }
-  query += ";";
+  let parameters = [parseInt(req.params.ord)];
+  let query = "select * from vw_news_with_order where ord <= ?;";
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {
       res.status(500).json("Algo se incendia...");

@@ -15,7 +15,7 @@ router.get("/find", (req, res) => {
     parameters = queryKeys.map((k) => req.query[k]);
     query += ` where ${filterTemplate}`;
   }
-  query += " limit 20;";
+  query += " limit 20 order by random();";
 
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {
@@ -49,7 +49,7 @@ router.get("/token/:token", function (req, res) {
 router.get("/nourl", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
   dataAccess.select(
-    "select * from raw_data where url = '' limit 20;",
+    "select * from raw_data where url = '' limit 20 order by random();",
     [],
     (err, data) => {
       if (err) {

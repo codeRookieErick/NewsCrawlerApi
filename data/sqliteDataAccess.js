@@ -5,6 +5,7 @@ let databasePath = "news.db";
 module.exports = function (databaseName) {
   this.databaseName = databaseName;
   this.select = (query, parameters, callback) => {
+    console.log(query);
     let database = new sqlite3.Database(
       this.databaseName,
       sqlite3.OPEN_READONLY,

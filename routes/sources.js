@@ -28,7 +28,6 @@ router.get("/getOrdered/:top?", function (req, res) {
     query += " where ord <= ?";
   }
   query += ";";
-  console.log(query);
   dataAccess.select(query, parameters, (err, data) => {
     if (err) {
       res.status(500).json("Algo se incendia...");

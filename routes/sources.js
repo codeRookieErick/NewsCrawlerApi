@@ -6,8 +6,8 @@ router.get("/:source?", function (req, res) {
   let dataAccess = new DataAccess("./data/news.db");
   let parameters = [];
   let query = "select * from vw_sources;";
-  if (req.params.category) {
-    parameters = [req.params.category];
+  if (req.params.source) {
+    parameters = [req.params.source];
     query = "select * from vw_sources where source = ?;";
   }
   dataAccess.select(query, parameters, (err, data) => {
